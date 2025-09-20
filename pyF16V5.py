@@ -109,28 +109,19 @@ def run_command(controller_ip, command, port_receiver_list_string, command_timeo
         # Perform command action
         if command == "on":
             controller.turn_on_fuse(fuse)
-            updated_ports.append(fuse)
         elif command == "off":
             controller.turn_off_fuse(fuse)
-            updated_ports.append(fuse)
         elif command == "reset":
             controller.reset_fuse(fuse)
-            updated_ports.append(fuse)
         elif command == "status":
-            updated_ports.append(fuse)
+            break
         else:
             logger.critical('Unknown or unsupported command: {}'.format(command))
 
     # Show status of selected fuses
-    updated_ports_sorted = sorted(updated_ports, key=lambda x: x.port_id)  # sort the fuse list
-    fuse_df = pandas.DataFrame([fuse.to_dict() for fuse in updated_ports_sorted])  # create a data frame
+    fuses_sorted = sorted(fuse_list, key=lambda x: x.port_id)  # sort the fuse list
+    fuse_df = pandas.DataFrame([fuse.to_dict() for fuse in fuses_sorted])  # create a data frame
     logger.info('Updated Fuse Status:\n{}'.format(fuse_df.to_string(index=False)))  # print the data frame
-
-
-def print_debug(message, debug_mode):
-    # Print message only if debug mode is enabled
-    if debug_mode:
-        print('|| -- DEBUG -- || {}'.format(message)) if (len(message) > 0) else print('')
 
 
 def config_logger(log_name_prefix, log_level, log_path):
@@ -138,10 +129,10 @@ def config_logger(log_name_prefix, log_level, log_path):
     Path(log_path).mkdir(parents=True, exist_ok=True)
 
     # Log filename
-    logFileName = '{}/{}.log'.format(log_path, log_name_prefix)
+    log_file_name = '{}/{}.log'.format(log_path, log_name_prefix)
 
     # Get logger
-    myLogger = logging.getLogger(loggerName)
+    my_logger = logging.getLogger(loggerName)
 
     # Set lowest allowed logger severity
     logger.setLevel(logging.DEBUG)
@@ -153,14 +144,14 @@ def config_logger(log_name_prefix, log_level, log_path):
     logger.addHandler(console_handler)
 
     # Log file output handler
-    file_handler = logging.FileHandler(logFileName)
+    file_handler = logging.FileHandler(log_file_name)
     file_handler.setLevel(log_level)
     file_handler.encoding = 'utf-8'
     file_handler.setFormatter(logging.Formatter('%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'))
     logger.addHandler(file_handler)
 
     # Return configured logger
-    return myLogger
+    return my_logger
 
 
 # Main function
