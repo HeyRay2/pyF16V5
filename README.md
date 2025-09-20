@@ -1,11 +1,12 @@
 # pyF16V5
 API wrapper for the Falcon F16V5 Pixel Controller
 
-There are plans for making other tweaks and adding features over time, but for now the script will let you do the following for one fuse, a set of fuses, or all fuses:
+There are plans for making other tweaks and adding features over time, but for now the script will let you do the 
+following for one e-fuse, a set of e-fuses, or all e-fuses:
 
-- Show the status of a fuse
-- Turn on / turn off a fuse
-- Reset a tripped fuse 
+- Show the status of an e-fuse
+- Turn on / off an e-fuse
+- Reset a tripped e-fuse 
 
 ## Installation
 
