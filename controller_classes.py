@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List
 import requests
-import json
 import pandas
+import json
 
 
 # Class for Controller Fuse

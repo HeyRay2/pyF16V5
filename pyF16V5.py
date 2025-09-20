@@ -184,7 +184,7 @@ async def main():
         exit()
 
     # Check if port list is valid
-    if re.match(r"^all|([1-9]|[12][0-9]|[3][0-2]):[0-9A-F]([,]([1-9]|[12][0-9]|[3][0-2]):[0-9A-F])*$", args.ports):
+    if re.match(r"^all|([1-9]|[12][0-9]|[3][0-2]):[0-9]([,]([1-9]|[12][0-9]|[3][0-2]):[0-9])*$", args.ports):
         port_list = args.ports
     else:
         # Port list parsing failure
