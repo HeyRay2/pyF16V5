@@ -1,5 +1,5 @@
 # pyF16V5
-API wrapper for the Falcon F16V5 Pixel Controller
+Python-based API wrapper for the Falcon F16V5 Pixel Controller
 
 There are plans for making other tweaks and adding features over time, but for now the script will let you do the 
 following for one e-fuse, a set of e-fuses, or all e-fuses:
