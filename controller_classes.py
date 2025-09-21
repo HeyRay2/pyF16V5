@@ -168,24 +168,22 @@ class Controller:
 
         # Send the request and record the response
         response = requests.request("POST", url, headers=headers, data=payload, timeout=self.timeout)
+        response_json = response.json()
 
-        # Verify a valid OpenToken was received
+        # Verify a valid response was received
         if not response.ok:
-            # Error getting Environment ID
-            env_error = response.json()
-
             raise Exception("Error getting controller details at '{}': {} - {}".format(
                 self.ip,
-                env_error.get("translationKey"),
-                env_error.get("error"))
+                response_json.get("translationKey"),
+                response_json.get("error"))
             )
 
         # Show response details
-        self.logger.debug(json.dumps(response.json()))
+        self.logger.debug(json.dumps(response_json, indent=4))
 
         # Set controller details
-        self.name = response.json().get("P").get("N")
-        self.version = response.json().get("P").get("V")
+        self.name = response_json.get("P").get("N")
+        self.version = response_json.get("P").get("V")
         self.logger.debug("Controller '{}' running version '{}' found at '{}'".format(
             self.name,
             self.version,
@@ -222,8 +220,9 @@ class Controller:
 
         # Send the request and record the response
         response = requests.request("POST", url, headers=headers, data=payload, timeout=self.timeout)
+        response_json = response.json()
 
-        # Verify a valid OpenToken was received
+        # Verify a valid response was received
         if not response.ok:
             # Error getting Environment ID
             env_error = response.json()
@@ -235,11 +234,11 @@ class Controller:
             )
 
         # Show response details
-        self.logger.debug(json.dumps(response.json()))
+        self.logger.debug(json.dumps(response_json))
 
         # Set controller fuse
         self.logger.debug("Generating Fuse Block Details...")
-        self.fuse_block = ControllerFuseBlock(response.json().get("P").get("A"), self.logger)
+        self.fuse_block = ControllerFuseBlock(response_json.get("P").get("A"), self.logger)
         self.logger.debug("Controller '{}' fuse details:".format(self.name))
         self.logger.debug('Fuse Block Details:\n{}'.format(
             self.fuse_block.get_fuse_block().to_string(index=False)))
@@ -273,20 +272,18 @@ class Controller:
 
         # Send the request and record the response
         response = requests.request("POST", url, headers=headers, data=payload, timeout=self.timeout)
+        response_json = response.json()
 
-        # Verify a valid OpenToken was received
+        # Verify a valid response was received
         if not response.ok:
-            # Error getting Environment ID
-            env_error = response.json()
-
             raise Exception("Error turning off controller fuses at '{}': {} - {}".format(
                 self.ip,
-                env_error.get("translationKey"),
-                env_error.get("error"))
+                response_json.get("translationKey"),
+                response_json.get("error"))
             )
 
         # Show response details
-        self.logger.debug(json.dumps(response.json()))
+        self.logger.debug(json.dumps(response_json))
 
         return True
 
@@ -317,20 +314,18 @@ class Controller:
 
         # Send the request and record the response
         response = requests.request("POST", url, headers=headers, data=payload, timeout=self.timeout)
+        response_json = response.json()
 
-        # Verify a valid OpenToken was received
+        # Verify a valid response was received
         if not response.ok:
-            # Error getting Environment ID
-            env_error = response.json()
-
             raise Exception("Error turning on controller fuses at '{}': {} - {}".format(
                 self.ip,
-                env_error.get("translationKey"),
-                env_error.get("error"))
+                response_json.get("translationKey"),
+                response_json.get("error"))
             )
 
         # Show response details
-        self.logger.debug(json.dumps(response.json()))
+        self.logger.debug(json.dumps(response_json))
 
         return True
 
@@ -361,20 +356,18 @@ class Controller:
 
         # Send the request and record the response
         response = requests.request("POST", url, headers=headers, data=payload, timeout=self.timeout)
+        response_json = response.json()
 
-        # Verify a valid OpenToken was received
+        # Verify a valid response was received
         if not response.ok:
-            # Error getting Environment ID
-            env_error = response.json()
-
             raise Exception("Error resetting controller fuses at '{}': {} - {}".format(
                 self.ip,
-                env_error.get("translationKey"),
-                env_error.get("error"))
+                response_json.get("translationKey"),
+                response_json.get("error"))
             )
 
         # Show response details
-        self.logger.debug(json.dumps(response.json()))
+        self.logger.debug(json.dumps(response_json))
 
         return True
 
@@ -428,20 +421,18 @@ class Controller:
 
             # Send the request and record the response
             response = requests.request("POST", url, headers=headers, data=payload, timeout=self.timeout)
+            response_json = response.json()
 
-            # Verify a valid OpenToken was received
+            # Verify a valid response was received
             if not response.ok:
-                # Error getting Environment ID
-                env_error = response.json()
-
                 raise Exception("Error turning on controller fuse at '{}': {} - {}".format(
                     self.ip,
-                    env_error.get("translationKey"),
-                    env_error.get("error"))
+                    response_json.get("translationKey"),
+                    response_json.get("error"))
                 )
 
             # Show response details
-            self.logger.debug(json.dumps(response.json()))
+            self.logger.debug(json.dumps(response_json))
 
             # Update controller fuse status
             fuse.state = ControllerFuseState.GOOD
@@ -499,20 +490,18 @@ class Controller:
 
             # Send the request and record the response
             response = requests.request("POST", url, headers=headers, data=payload, timeout=self.timeout)
+            response_json = response.json()
 
-            # Verify a valid OpenToken was received
+            # Verify a valid response was received
             if not response.ok:
-                # Error getting Environment ID
-                env_error = response.json()
-
                 raise Exception("Error turning off controller fuse at '{}': {} - {}".format(
                     self.ip,
-                    env_error.get("translationKey"),
-                    env_error.get("error"))
+                    response_json.get("translationKey"),
+                    response_json.get("error"))
                 )
 
             # Show response details
-            self.logger.debug(json.dumps(response.json()))
+            self.logger.debug(json.dumps(response_json))
 
             # Update controller fuse status
             fuse.state = ControllerFuseState.OFF
@@ -564,12 +553,10 @@ class Controller:
 
             # Send the request and record the response
             response = requests.request("POST", url, headers=headers, data=payload, timeout=self.timeout)
+            response_json = response.json()
 
-            # Verify a valid OpenToken was received
+            # Verify a valid response was received
             if not response.ok:
-                # Error getting Environment ID
-                env_error = response.json()
-
                 raise Exception("Error resetting controller fuse at '{}': {} - {}".format(
                     self.ip,
                     env_error.get("translationKey"),
@@ -577,7 +564,7 @@ class Controller:
                 )
 
             # Show response details
-            self.logger.debug(json.dumps(response.json()))
+            self.logger.debug(json.dumps(response_json))
 
             # Update controller fuse status
             fuse.state = ControllerFuseState.GOOD
